@@ -9,6 +9,16 @@ class ApplicationController < Sinatra::Base
         set :session_secret, "golfsecret"
     end
 
+    helpers do
+        def logged_in?
+            !!session[:user_id]
+        end
+
+        def current_user
+            User.find(session[:user_id])
+        end
+    end
+
     get '/' do
         erb :index
     end
@@ -18,6 +28,21 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/login' do
-        erb :login
+        if logged_in?
+            redirect to erb :index #add a homepage for logged in users.
+        else
+            erb :login
+        end
     end
+
+    post '/login' do
+         @user = User.find_by(email: params[:email])
+        if @user && @user.authenticate(params[:password])
+            session[:user_id] = @user.id
+            redirect to :index #add a homepage for logged in users.
+        else
+            erb :login
+        end
+    end
+
 end

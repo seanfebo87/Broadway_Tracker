@@ -27,9 +27,21 @@ class ApplicationController < Sinatra::Base
         erb :signup
     end
 
+    post '/signup' do
+        if params[:email] == "" || params[:password] == ""
+            redirect to '/signup'
+        else
+            @user = User.create(email: params[:email], params[:password])
+            @user.save
+            session[:user_id] = @user.id
+            redirect to '/login'
+        end
+    end
+
+
     get '/login' do
         if logged_in?
-            redirect to erb :index #add a homepage for logged in users.
+            erb :homepage
         else
             erb :login
         end
@@ -39,7 +51,7 @@ class ApplicationController < Sinatra::Base
          @user = User.find_by(email: params[:email])
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
-            redirect to :index #add a homepage for logged in users.
+            erb :homepage
         else
             erb :login
         end

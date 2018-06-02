@@ -41,7 +41,7 @@ class ApplicationController < Sinatra::Base
 
     get '/login' do
         if logged_in?
-            erb :homepage
+            redirect to '/homepage'
         else
             erb :login
         end
@@ -51,9 +51,18 @@ class ApplicationController < Sinatra::Base
          @user = User.find_by(email: params[:email])
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
-            erb :homepage
+            redirect to '/homepage'
         else
             erb :login
+        end
+    end
+
+    get '/homepage' do
+        if logged_in?
+            @user = current_user
+            erb :homepage
+        else
+            redirect to '/login'
         end
     end
 

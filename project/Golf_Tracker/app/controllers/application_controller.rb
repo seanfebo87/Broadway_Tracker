@@ -1,4 +1,5 @@
 require './config/environment'
+require 'rack-flash'
 require 'pry'
 class ApplicationController < Sinatra::Base
 
@@ -36,10 +37,14 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/signup' do
-        if params[:username] == "" || params[:email] == "" || params[:password] == ""
+        if params[:email] == "" || params[:username] == "" || params[:password] == ""
+            flash[:message] = "Please fill out all fields."
+            redirect to '/signup'
+        elsif User.find_by_email(params[:email]) != nil
+            flash[:message] = "This email is already being used."
             redirect to '/signup'
         else
-            @user = User.create(username: params[:username], email: params[:email], password: params[:password])
+            @user = User.create(email: params[:email], username: params[:username], password: params[:password])
             @user.save
             session[:user_id] = @user.id
             redirect to '/homepage'

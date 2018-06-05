@@ -72,15 +72,17 @@ use Rack::Flash
     end
 
     get '/:id' do
-        if logged_in?
-            @user = User.find_by_id(params[:id])
+        if current_user == User.find(params[:id])
+            @user = User.find(params[:id])
             erb :'/users/show'
+        elsif logged_in?
+            redirect to "/#{session[:user_id]}"
         else
             redirect to '/'
         end
     end
 
-    get '/logout' do
+    post '/logout' do
         if logged_in?
             session.clear
             redirect to '/'

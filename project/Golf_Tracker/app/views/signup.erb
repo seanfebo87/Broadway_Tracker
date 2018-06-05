@@ -8,6 +8,12 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </head>
 <body>
+<% if flash.has?(:message) %>
+  <div class="notification is-danger has-text-weight-bold">
+  <%= flash[:message] %>
+  </div>
+<% end %>
+</div>
     <form action='/signup' method='post'>
         <div class="field">
             <p class="control has-icons-left has-icons-right">

@@ -23,7 +23,7 @@ use Rack::Flash
 
     get '/' do
         if logged_in?
-            redirect to '/homepage'
+            redirect to "/#{session[:user_id]}"
         else
             erb :index
         end
@@ -31,7 +31,7 @@ use Rack::Flash
 
     get '/signup' do
         if logged_in?
-            redirect to '/homepage'
+            redirect to "/#{session[:user_id]}"
         else
             erb :signup
         end
@@ -48,14 +48,14 @@ use Rack::Flash
             @user = User.create(email: params[:email], username: params[:username], password: params[:password])
             @user.save
             session[:user_id] = @user.id
-            redirect to '/homepage'
+            redirect to "/#{session[:user_id]}"
         end
     end
 
 
     get '/login' do
         if logged_in?
-            redirect to '/homepage'
+            redirect to "/#{session[:user_id]}"
         else
             erb :login
         end
@@ -65,16 +65,16 @@ use Rack::Flash
          @user = User.find_by(email: params[:email])
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
-            redirect to '/homepage'
+            redirect to "/#{session[:user_id]}"
         else
             erb :login
         end
     end
 
-    get '/homepage' do
+    get '/:id' do
         if logged_in?
-            @user = current_user
-            erb :homepage
+            @user = User.find_by_id(params[:id])
+            erb :'/users/show'
         else
             redirect to '/'
         end

@@ -65,7 +65,7 @@ use Rack::Flash
          @user = User.find_by(email: params[:email])
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
-            redirect to "/#{session[:user_id]}"
+            redirect to "/#{@user.id}"
         elsif params[:email] == "" || params[:password] == ""
             flash[:message] = "Please fill out all fields."
             redirect to '/login'
@@ -80,7 +80,7 @@ use Rack::Flash
             if logged_in? && @user && @user.id == session[:user_id]
             erb :'/users/show'
         else
-            redirect to "/#{session[:user_id]}"
+            redirect to "/#{@user.id}"
         end
     end
 
@@ -96,15 +96,15 @@ use Rack::Flash
             @post = Post.create(date: params[:date], course: params[:course], score: params[:score])
             @user = User.find(session[:user_id])
             @user.posts << @post
-            redirect to "/#{session[:user_id]}"
+            redirect to "/#{@user.id}"
         end
     end
 
-    get ':/id/edit' do
+    get '/:id/edit' do
+        @post = Post.find(params[:id])
         erb :'/users/edit'
     end
 
-    post
 
     post '/logout' do
         if logged_in?

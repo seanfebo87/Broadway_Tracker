@@ -66,22 +66,26 @@ use Rack::Flash
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
             redirect to "/#{session[:user_id]}"
+        elsif params[:email] == "" || params[:password] == ""
+            flash[:message] = "Please fill out all fields."
+            redirect to '/login'
         else
             flash[:message] = "Not valid information."
-            erb :login
+            redirect to '/login'
         end
     end
 
     get '/:id' do
         if logged_in?
             @user = User.find(params[:id])
+            @posts = Post.all
             erb :'/users/show'
         else
             redirect to '/'
         end
     end
 
-    get ':id/new' do
+    get '/:id/new' do
         if logged_in?
             erb :'/users/new'
         else
@@ -95,8 +99,8 @@ use Rack::Flash
             redirect to '/:id/new'
         else
             @post = Post.create(date: params[:date], course: params[:course], score: params[:score])
-            @user.save
-            session[:user_id] = @user.id
+            @user = User.find(session[:user_id])
+            @user.posts << @post
             redirect to "/#{session[:user_id]}"
         end
     end

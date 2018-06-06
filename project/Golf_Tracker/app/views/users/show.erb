@@ -23,16 +23,16 @@
             <td><%=post.date%></td>
             <td><%=post.course%></td>
             <td><%=post.score%></td>
-            <form action='/:id/edit' method='post'>
+            <form action="/<%=post.id%>/edit">
             <td><input type="submit" value="Edit"></td>
-            </form>
+                </form>
             </tr>
             <%end%>
         </tbody>
     </table>
 <br>
 
-    <form action='/:id/new' method='post'>
+    <form action='/<%=@user.id%>/new'>
         <input type="submit" value="Add Record">
     </form>
     <form action='/logout' method='post'>

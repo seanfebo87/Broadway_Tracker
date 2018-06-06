@@ -8,12 +8,13 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </head>
 <body>
-    <table class="table is-fullwidth">
+    <table class="table is-hoverable is-fullwidth">
         <thead>
             <tr>
             <th>Date</th>
             <th>Course</th>
             <th>Score</th>
+            <th></th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
             <td><%=post.date%></td>
             <td><%=post.course%></td>
             <td><%=post.score%></td>
+            <td><input type="submit" value="Edit"></td>
             </tr>
             <%end%>
         </tbody>
@@ -34,6 +36,7 @@
     <form action='/logout' method='post'>
         <input type="submit" value="Logout">
     </form>
+
 
     <%=@user.username%>
 </body>

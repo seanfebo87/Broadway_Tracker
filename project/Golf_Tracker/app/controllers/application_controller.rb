@@ -100,7 +100,11 @@ use Rack::Flash
         end
     end
 
+    get ':/id/edit' do
+        erb :'/users/edit'
+    end
 
+    post
 
     post '/logout' do
         if logged_in?

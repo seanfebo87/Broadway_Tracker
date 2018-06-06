@@ -76,21 +76,16 @@ use Rack::Flash
     end
 
     get '/:id' do
-        if logged_in?
             @user = User.find(params[:id])
-            @posts = Post.all
+            if logged_in? && @user && @user.id == session[:user_id]
             erb :'/users/show'
         else
-            redirect to '/'
+            redirect to "/#{session[:user_id]}"
         end
     end
 
     get '/:id/new' do
-        if logged_in?
             erb :'/users/new'
-        else
-            redirect to '/'
-        end
     end
 
     post '/:id/new' do
@@ -104,6 +99,8 @@ use Rack::Flash
             redirect to "/#{session[:user_id]}"
         end
     end
+
+
 
     post '/logout' do
         if logged_in?

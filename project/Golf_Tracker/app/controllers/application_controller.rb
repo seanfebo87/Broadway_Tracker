@@ -99,7 +99,7 @@ use Rack::Flash
             session[:user_id] = @user.id
             redirect to "/#{session[:user_id]}"
         end
-
+    end
 
     post '/logout' do
         if logged_in?

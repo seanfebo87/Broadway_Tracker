@@ -31,15 +31,21 @@
         </tbody>
     </table>
 <br>
-
-    <form action='/<%=@user.id%>/new'>
-        <input type="submit" value="Add Record">
-    </form>
-    <form action='/logout' method='post'>
-        <input type="submit" value="Logout">
-    </form>
-
-
-    <%=@user.username%>
+  <div class="field is-grouped">
+  <p class="control">
+  <form action='/<%=@user.id%>/new'>
+    <button class="button is-success">
+      Add New Record
+    </button>
+  </form>
+  </p>
+  <p class="control">
+  <form action='/logout' method='post'>
+    <button class="button is-danger">
+      Logout
+    </a>
+  </form>
+  </button>
+  </div>
 </body>
 </html>

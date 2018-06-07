@@ -105,6 +105,12 @@ use Rack::Flash
         erb :'/users/edit'
     end
 
+    post '/:id/edit' do
+        @post = Post.find(params[:id])
+        @post.update(date: params[:date], course: params[:course], score: params[:score])
+        redirect to "/#{@post.user_id}"
+    end
+
 
     post '/logout' do
         if logged_in?

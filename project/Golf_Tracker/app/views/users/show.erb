@@ -23,29 +23,31 @@
             <td><%=post.date%></td>
             <td><%=post.course%></td>
             <td><%=post.score%></td>
+            <td>
+            <div class="field is-grouped">
             <form action="/<%=post.id%>/edit">
-            <td><input type="submit" value="Edit"></td>
-                </form>
+            <input type="submit" value="Edit">
+            </form>
+            <form action="/<%=post.id%>/delete">
+            <input type="submit" value="Delete">
+            </form>
+            </div>
+            </td>
             </tr>
             <%end%>
         </tbody>
     </table>
-<br>
   <div class="field is-grouped">
-  <p class="control">
   <form action='/<%=@user.id%>/new'>
     <button class="button is-success">
       Add New Record
     </button>
   </form>
-  </p>
-  <p class="control">
   <form action='/logout' method='post'>
     <button class="button is-danger">
       Logout
-    </a>
+    </button>
   </form>
-  </button>
   </div>
 </body>
 </html>

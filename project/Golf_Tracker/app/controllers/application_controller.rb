@@ -80,7 +80,7 @@ use Rack::Flash
             if logged_in? && @user && @user.id == session[:user_id]
             erb :'/users/show'
         else
-            redirect to "/#{@user.id}"
+            redirect to '/'
         end
     end
 

@@ -111,6 +111,11 @@ use Rack::Flash
         redirect to "/#{@post.user_id}"
     end
 
+    get '/:id/delete' do
+        Post.find(params[:id]).delete
+        redirect to '/'
+    end
+
 
     post '/logout' do
         if logged_in?

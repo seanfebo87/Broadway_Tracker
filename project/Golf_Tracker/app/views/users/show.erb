@@ -8,8 +8,11 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </head>
 <body>
-    <h1 class="has-text-weight-bold has-text-link is-capitalized"><%=@user.username%>'s golf tracker</h1>
-    <table class="table is-hoverable is-fullwidth">
+    <section class="hero is-light is-fullheight">
+    <div class="hero-head">
+    <h1 class="has-text-weight-bold has-text-link is-capitalized title"><%=@user.username%>'s golf tracker</h1>
+    <br>
+    <table class="table is-hoverable is-fullwidth has-background-light">
         <thead>
             <tr>
             <th>Date</th>
@@ -38,6 +41,7 @@
             <%end%>
         </tbody>
     </table>
+    </div>
   <div class="field is-grouped">
   <form action='/<%=@user.id%>/new'>
     <button class="button is-success">
@@ -50,5 +54,6 @@
     </button>
   </form>
   </div>
+  </section>
 </body>
 </html>

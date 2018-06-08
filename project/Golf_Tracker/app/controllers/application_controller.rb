@@ -88,12 +88,12 @@ use Rack::Flash
     end
 
     post '/:id/new' do
+        @user = User.find(session[:user_id])
         if params[:date] == "" || params[:course] == "" || params[:score] == ""
             flash[:message] = "Please fill out all fields."
-            redirect to '/:id/new'
+            redirect to "/#{@user.id}/new"
         else
             @post = Post.create(date: params[:date], course: params[:course], score: params[:score])
-            @user = User.find(session[:user_id])
             @user.posts << @post
             redirect to "/#{@user.id}"
         end

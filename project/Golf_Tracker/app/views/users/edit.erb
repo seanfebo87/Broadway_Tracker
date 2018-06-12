@@ -15,7 +15,7 @@
 <% end %>
     <h1 class="has-text-weight-bold">Edit Your Record.</h1>
     <br>
-    <form action='/<%=@post.id%>/edit' method='post'>
+    <form action='/posts/<%=@post.id%>/edit' method='post'>
         <div class="field">
             <p class="control">
                 <input class="input" type="date" name="date" value="<%=@post.date%>">

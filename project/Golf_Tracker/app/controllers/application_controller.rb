@@ -22,7 +22,7 @@ use Rack::Flash
 
     get '/' do
         if logged_in?
-            redirect to "/#{session[:user_id]}"
+            redirect to "/user/#{session[:user_id]}"
         else
             erb :index
         end
@@ -30,7 +30,7 @@ use Rack::Flash
 
     get '/signup' do
         if logged_in?
-            redirect to "/#{session[:user_id]}"
+            redirect to "/user/#{session[:user_id]}"
         else
             erb :signup
         end
@@ -46,14 +46,14 @@ use Rack::Flash
         else
             @user = User.create(email: params[:email], username: params[:username], password: params[:password])
             session[:user_id] = @user.id
-            redirect to "/#{session[:user_id]}"
+            redirect to "/user/#{session[:user_id]}"
         end
     end
 
 
     get '/login' do
         if logged_in?
-            redirect to "/#{session[:user_id]}"
+            redirect to "/user/#{session[:user_id]}"
         else
             erb :login
         end
@@ -72,53 +72,6 @@ use Rack::Flash
             redirect to '/login'
         end
     end
-
-    get '/:id' do
-            @user = User.find(params[:id])
-            if logged_in? && @user && @user.id == session[:user_id]
-            erb :'/users/show'
-        else
-            redirect to '/'
-        end
-    end
-
-    get '/:id/new' do
-            erb :'/users/new'
-    end
-
-    post '/:id/new' do
-        @user = User.find(session[:user_id])
-        if params[:date] == "" || params[:course] == "" || params[:score] == ""
-            flash[:message] = "Please fill out all fields."
-            redirect to "/#{@user.id}/new"
-        else
-            @post = Post.create(date: params[:date], course: params[:course], score: params[:score])
-            @user.posts << @post
-            redirect to "/#{@user.id}"
-        end
-    end
-
-    get '/:id/edit' do
-        @post = Post.find(params[:id])
-        if logged_in? && @post && @post.user_id == session[:user_id]
-            erb :'/users/edit'
-        else
-            redirect to '/'
-        end
-
-    end
-
-    post '/:id/edit' do
-        @post = Post.find(params[:id])
-        @post.update(date: params[:date], course: params[:course], score: params[:score])
-        redirect to "/#{@post.user_id}"
-    end
-
-    get '/:id/delete' do
-        Post.find(params[:id]).delete
-        redirect to '/'
-    end
-
 
     post '/logout' do
         if logged_in?

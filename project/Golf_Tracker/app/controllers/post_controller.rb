@@ -39,3 +39,4 @@ use Rack::Flash
         Post.find(params[:id]).delete
         redirect to '/'
     end
+end

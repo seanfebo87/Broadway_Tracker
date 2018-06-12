@@ -16,7 +16,7 @@ use Rack::Flash
         end
 
         def current_user
-            User.find(session[:user_id])
+            @user ||= User.find(session[:user_id])
         end
     end
 
@@ -40,12 +40,11 @@ use Rack::Flash
         if params[:email] == "" || params[:username] == "" || params[:password] == ""
             flash[:message] = "Please fill out all fields."
             redirect to '/signup'
-        elsif User.find_by_email(params[:email]) != nil
+        elsif User.find_by_email(params[:email]) #!= nil
             flash[:message] = "This email is already being used."
             redirect to '/signup'
         else
             @user = User.create(email: params[:email], username: params[:username], password: params[:password])
-            @user.save
             session[:user_id] = @user.id
             redirect to "/#{session[:user_id]}"
         end
@@ -101,7 +100,12 @@ use Rack::Flash
 
     get '/:id/edit' do
         @post = Post.find(params[:id])
-        erb :'/users/edit'
+        if logged_in? && @post && @post.user_id == session[:user_id]
+            erb :'/users/edit'
+        else
+            redirect to '/'
+        end
+
     end
 
     post '/:id/edit' do
